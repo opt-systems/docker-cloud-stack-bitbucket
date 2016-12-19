@@ -1,0 +1,32 @@
+bitbucket:
+  environment:
+    - BITBUCKET_DELAYED_START=
+    - BITBUCKET_PROXY_NAME=bitbucket.example.com
+    - BITBUCKET_PROXY_PORT=443
+    - BITBUCKET_PROXY_SCHEME=https
+    - LETSENCRYPT_EMAIL=admin@example.com
+    - LETSENCRYPT_HOST=bitbucket.example.com
+    - VIRTUAL_HOST=bitbucket.example.com
+    - VIRTUAL_PORT=7990
+  expose:
+    - '7990'
+  image: 'blacklabelops/bitbucket:latest'
+  links:
+    - postgresqlbitbucket
+  tags:
+    - my-super-node
+  volumes:
+    - /var/atlassian/bitbucket
+postgresqlbitbucket:
+  environment:
+    - POSTGRES_DB=bitbucketdb
+    - POSTGRES_ENCODING=UNICODE
+    - POSTGRES_PASSWORD=bitbucketdb
+    - POSTGRES_USER=bitbucketdb
+  image: 'blacklabelops/postgres:latest'
+  ports:
+    - '54321:5432'
+  tags:
+    - my-super-node
+  volumes:
+    - /var/lib/postgresql
